@@ -69,10 +69,10 @@ private fun TitleAndValueText(title: String, parameterName: String, precision: I
         .padding(48.dp)) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.align(Alignment.Center)) {
-                Text(title, fontSize = 20.sp, textAlign = TextAlign.Center)
-                Spacer(modifier = Modifier.height(18.dp))
-                Text(parameterName, textAlign = TextAlign.Center)
-                Spacer(modifier = Modifier.height(12.dp))
+                //Text(title, fontSize = 20.sp, textAlign = TextAlign.Center)
+                //Spacer(modifier = Modifier.height(4.dp))
+                //Text(parameterName, textAlign = TextAlign.Center)
+                //Spacer(modifier = Modifier.height(4.dp))
                 Text("$valueStr $suffix", textAlign = TextAlign.Center)
             }
         }

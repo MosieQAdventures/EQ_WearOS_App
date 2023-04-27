@@ -19,6 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.wear.compose.foundation.CurvedRow
+import androidx.wear.compose.foundation.CurvedRowScope
 import androidx.wear.compose.material.*
 import com.example.eq_hm_wearos_app.presentation.ArcsViewModel
 import com.example.eq_hm_wearos_app.presentation.ui.ArcsUiState
@@ -26,7 +28,7 @@ import java.util.*
 
 
 @Composable
-fun MacroNo1Screen(modifier: Modifier = Modifier,
+fun MacroNo8Screen(modifier: Modifier = Modifier,
                    arcsViewModel: ArcsViewModel = viewModel()) {
     Scaffold() {
         val focusRequester: FocusRequester = remember { FocusRequester() }
@@ -35,7 +37,7 @@ fun MacroNo1Screen(modifier: Modifier = Modifier,
         //var progress by remember { mutableStateOf(arc1UiState.arcStateNo1) }
 
         TextOnTop()
-        TitleAndValueText(title = "Macro", parameterName = "no 1", precision = 0, suffix = "%", arcUiState = arcUiState, arcsViewModel = arcsViewModel)
+        TitleAndValueText(title = "Macro", parameterName = "no 8", precision = 0, suffix = "%", arcUiState = arcUiState, arcsViewModel = arcsViewModel)
         Arc(arcsViewModel = arcsViewModel, focusRequester = focusRequester, arcUiState = arcUiState)
     }
 }
@@ -51,12 +53,14 @@ private fun TextOnTop() {
             ),
             //timeTextStyle = TextStyle(background = androidx.compose.ui.graphics.Color.Red)
         )
+        Spacer(modifier = Modifier.height(2.dp))
+        CurvedRow { CurvedText("X") }
     }
 }
 
 @Composable
 private fun TitleAndValueText(title: String, parameterName: String, precision: Int, suffix: String, arcUiState: ArcsUiState, arcsViewModel: ArcsViewModel) {
-    var progress = arcsViewModel.getArc1Progress()
+    var progress = arcsViewModel.getArc2Progress()
     progress *= 100 //convert from 0-1 to %
 
     var valueStr = progress.toString()
@@ -70,9 +74,9 @@ private fun TitleAndValueText(title: String, parameterName: String, precision: I
         Box(modifier = Modifier.fillMaxSize()) {
             Column(modifier = Modifier.align(Alignment.Center)) {
                 //Text(title, fontSize = 20.sp, textAlign = TextAlign.Center)
-                //Spacer(modifier = Modifier.height(4.dp))
+                //Spacer(modifier = Modifier.height(18.dp))
                 //Text(parameterName, textAlign = TextAlign.Center)
-                //Spacer(modifier = Modifier.height(4.dp))
+                //Spacer(modifier = Modifier.height(12.dp))
                 Text("$valueStr $suffix", textAlign = TextAlign.Center)
             }
         }
@@ -86,19 +90,21 @@ private fun Arc(modifier: Modifier = Modifier, arcsViewModel: ArcsViewModel, foc
         //val focusRequester: FocusRequester = remember { FocusRequester() }
 
         //val arc1UiState by arcsViewModel.uiState.collectAsState()
-        var progress by remember { mutableStateOf(arcUiState.arcStateNo1) }
+        var progress by remember { mutableStateOf(arcUiState.arcStateNo2) }
 
         Column(modifier = Modifier
             .fillMaxSize()
             .onRotaryScrollEvent {
                 //handle rotary event
                 progress = when {
-                    it.verticalScrollPixels > 0 -> java.lang.Float.min (progress + 0.1f, 1f)
-                    it.verticalScrollPixels < 0 -> java.lang.Float.max (progress - 0.1f, 0f)
-                    else -> { progress }
+                    it.verticalScrollPixels > 0 -> java.lang.Float.min(progress + 0.1f, 1f)
+                    it.verticalScrollPixels < 0 -> java.lang.Float.max(progress - 0.1f, 0f)
+                    else -> {
+                        progress
+                    }
                 }
 
-                arcsViewModel.changeArc1Value(progress)
+                arcsViewModel.changeArc2Value(progress)
                 arcsViewModel.onArcChangeStateUpdate()
 
                 true

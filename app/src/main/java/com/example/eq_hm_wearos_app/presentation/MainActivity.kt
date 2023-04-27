@@ -32,9 +32,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
 import androidx.wear.compose.material.*
-import com.example.eq_hm_wearos_app.presentation.screens.MacroNo1Screen
-import com.example.eq_hm_wearos_app.presentation.screens.MacroNo2Screen
+import androidx.wear.compose.navigation.SwipeDismissableNavHost
+import androidx.wear.compose.navigation.composable
+import androidx.wear.compose.navigation.currentBackStackEntryAsState
+import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
+import com.example.eq_hm_wearos_app.presentation.screens.*
 import com.example.eq_hm_wearos_app.presentation.theme.EQ_HM_WearOS_AppTheme
 
 import java.util.*
@@ -48,8 +53,22 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+enum class MacroScreen() {
+    Macro1,
+    Macro2,
+    Macro3,
+    Macro4,
+    Macro5,
+    Macro6,
+    Macro7,
+    Macro8,
+}
+
 @Composable
 fun WearApp() {
+    val navController = rememberSwipeDismissableNavController()
+    val backStackEntry by navController.currentBackStackEntryAsState()
+
     EQ_HM_WearOS_AppTheme {
         /* If you have enough items in your list, use [ScalingLazyColumn] which is an optimized
          * version of LazyColumn for wear devices with some added features. For more information,
@@ -68,19 +87,50 @@ fun WearApp() {
                 PagerHorizontal()
             }*/
             Scaffold {
-                MacroNo1Screen()
+
+                SwipeDismissableNavHost(
+                    navController = navController,
+                    startDestination = MacroScreen.Macro1.name
+                ) {
+                    composable(route = MacroScreen.Macro1.name) {
+                        MacroNo1Screen()
+                    }
+                    composable(route = MacroScreen.Macro2.name) {
+                        MacroNo2Screen()
+                    }
+                    composable(route = MacroScreen.Macro3.name) {
+                        MacroNo3Screen()
+                    }
+                    composable(route = MacroScreen.Macro4.name) {
+                        MacroNo4Screen()
+                    }
+                    composable(route = MacroScreen.Macro5.name) {
+                        MacroNo5Screen()
+                    }
+                    composable(route = MacroScreen.Macro6.name) {
+                        MacroNo6Screen()
+                    }
+                    composable(route = MacroScreen.Macro7.name) {
+                        MacroNo7Screen()
+                    }
+                    composable(route = MacroScreen.Macro8.name) {
+                        MacroNo8Screen()
+                    }
+                }
+
+                //MacroNo1Screen()
                 //MacroNo2Screen()
-                PagerHorizontal()
+                PagerHorizontal(navController)
             }
         }
     }
 }
 
 @Composable
-fun PagerHorizontal() {
+fun PagerHorizontal(navController: NavHostController) {
     val maxPages = 8
-    var selectedPage by remember { mutableStateOf(0) }
-    var finalValue by remember { mutableStateOf(0) }
+    var selectedPage by remember { mutableStateOf(1) }
+    var finalValue by remember { mutableStateOf(1) }
 
     val animatedSelectedPage by animateFloatAsState(
         targetValue = selectedPage.toFloat(),
@@ -91,7 +141,7 @@ fun PagerHorizontal() {
     val pageIndicatorState: PageIndicatorState = remember {
         object : PageIndicatorState {
             override val pageOffset: Float
-                get() = animatedSelectedPage - finalValue
+                get() = animatedSelectedPage - finalValue - 1
             override val selectedPage: Int
                 get() = finalValue
             override val pageCount: Int
@@ -103,17 +153,23 @@ fun PagerHorizontal() {
         Box(modifier = Modifier.fillMaxSize()) {
             Row(modifier = Modifier.align(Alignment.Center)) {
                 Button(
-                    onClick = { selectedPage-- },
-                    enabled = (selectedPage != 0),
+                    onClick = {
+                        navigateToPervPage(selectedPage, navController = navController)
+                        selectedPage--
+                    },
+                    enabled = (selectedPage != 1),
                     modifier = Modifier.size(ButtonDefaults.ExtraSmallButtonSize),
                     colors = ButtonDefaults.secondaryButtonColors()
                 ) {
                     Icon(Icons.Rounded.KeyboardArrowLeft, "PrevPage")
                 }
-                Spacer(modifier = Modifier.width(116.dp))
+                Spacer(modifier = Modifier.width(100.dp))
                 Button(
-                    onClick = { selectedPage++ },
-                    enabled = (selectedPage != maxPages-1),
+                    onClick = {
+                        navigateToNextPage(selectedPage, navController = navController)
+                        selectedPage++
+                    },
+                    enabled = (selectedPage != maxPages),
                     modifier = Modifier.size(ButtonDefaults.ExtraSmallButtonSize),
                     colors = ButtonDefaults.secondaryButtonColors()
                 ) {
@@ -125,6 +181,35 @@ fun PagerHorizontal() {
             pageIndicatorState = pageIndicatorState
         )
     }
+}
+
+fun navigateToNextPage(currentPage: Int, navController: NavHostController) {
+    when (currentPage) {
+        1 -> navController.navigate(MacroScreen.Macro2.name) { popUpTo(MacroScreen.Macro1.name) }
+        2 -> navController.navigate(MacroScreen.Macro3.name) { popUpTo(MacroScreen.Macro1.name) }
+        3 -> navController.navigate(MacroScreen.Macro4.name) { popUpTo(MacroScreen.Macro1.name) }
+        4 -> navController.navigate(MacroScreen.Macro5.name) { popUpTo(MacroScreen.Macro1.name) }
+        5 -> navController.navigate(MacroScreen.Macro6.name) { popUpTo(MacroScreen.Macro1.name) }
+        6 -> navController.navigate(MacroScreen.Macro7.name) { popUpTo(MacroScreen.Macro1.name) }
+        7 -> navController.navigate(MacroScreen.Macro8.name) { popUpTo(MacroScreen.Macro1.name) }
+        8 -> {}
+        else -> {}
+    }
+    Log.d("X", (currentPage+1).toString())
+}
+fun navigateToPervPage(currentPage: Int, navController: NavHostController) {
+    when (currentPage) {
+        8 -> navController.navigate(MacroScreen.Macro7.name) { popUpTo(MacroScreen.Macro1.name) }
+        7 -> navController.navigate(MacroScreen.Macro6.name) { popUpTo(MacroScreen.Macro1.name) }
+        6 -> navController.navigate(MacroScreen.Macro5.name) { popUpTo(MacroScreen.Macro1.name) }
+        5 -> navController.navigate(MacroScreen.Macro4.name) { popUpTo(MacroScreen.Macro1.name) }
+        4 -> navController.navigate(MacroScreen.Macro3.name) { popUpTo(MacroScreen.Macro1.name) }
+        3 -> navController.navigate(MacroScreen.Macro2.name) { popUpTo(MacroScreen.Macro1.name) }
+        2 -> navController.navigate(MacroScreen.Macro1.name) { popUpTo(MacroScreen.Macro1.name) }
+        1 -> {}
+        else -> {}
+    }
+    Log.d("X", (currentPage-1).toString())
 }
 
 @Preview(device = Devices.WEAR_OS_LARGE_ROUND, showSystemUi = true)

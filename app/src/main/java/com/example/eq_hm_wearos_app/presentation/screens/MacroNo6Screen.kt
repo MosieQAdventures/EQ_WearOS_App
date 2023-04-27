@@ -26,7 +26,7 @@ import java.util.*
 
 
 @Composable
-fun MacroNo1Screen(modifier: Modifier = Modifier,
+fun MacroNo6Screen(modifier: Modifier = Modifier,
                    arcsViewModel: ArcsViewModel = viewModel()) {
     Scaffold() {
         val focusRequester: FocusRequester = remember { FocusRequester() }
@@ -35,7 +35,7 @@ fun MacroNo1Screen(modifier: Modifier = Modifier,
         //var progress by remember { mutableStateOf(arc1UiState.arcStateNo1) }
 
         TextOnTop()
-        TitleAndValueText(title = "Macro", parameterName = "no 1", precision = 0, suffix = "%", arcUiState = arcUiState, arcsViewModel = arcsViewModel)
+        TitleAndValueText(title = "Macro", parameterName = "no 6", precision = 0, suffix = "%", arcUiState = arcUiState, arcsViewModel = arcsViewModel)
         Arc(arcsViewModel = arcsViewModel, focusRequester = focusRequester, arcUiState = arcUiState)
     }
 }
@@ -56,7 +56,7 @@ private fun TextOnTop() {
 
 @Composable
 private fun TitleAndValueText(title: String, parameterName: String, precision: Int, suffix: String, arcUiState: ArcsUiState, arcsViewModel: ArcsViewModel) {
-    var progress = arcsViewModel.getArc1Progress()
+    var progress = arcsViewModel.getArc2Progress()
     progress *= 100 //convert from 0-1 to %
 
     var valueStr = progress.toString()
@@ -86,7 +86,7 @@ private fun Arc(modifier: Modifier = Modifier, arcsViewModel: ArcsViewModel, foc
         //val focusRequester: FocusRequester = remember { FocusRequester() }
 
         //val arc1UiState by arcsViewModel.uiState.collectAsState()
-        var progress by remember { mutableStateOf(arcUiState.arcStateNo1) }
+        var progress by remember { mutableStateOf(arcUiState.arcStateNo2) }
 
         Column(modifier = Modifier
             .fillMaxSize()
@@ -98,7 +98,7 @@ private fun Arc(modifier: Modifier = Modifier, arcsViewModel: ArcsViewModel, foc
                     else -> { progress }
                 }
 
-                arcsViewModel.changeArc1Value(progress)
+                arcsViewModel.changeArc2Value(progress)
                 arcsViewModel.onArcChangeStateUpdate()
 
                 true
