@@ -1,13 +1,8 @@
 package com.example.eq_hm_wearos_app.presentation.screens
 
 import android.text.format.DateFormat
-import android.util.Log
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.KeyboardArrowLeft
-import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -19,6 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.wear.compose.foundation.CurvedRow
 import androidx.wear.compose.material.*
 import com.example.eq_hm_wearos_app.presentation.ArcsViewModel
 import com.example.eq_hm_wearos_app.presentation.ui.ArcsUiState
@@ -34,28 +30,39 @@ fun MacroNo4Screen(modifier: Modifier = Modifier,
         val arcUiState by arcsViewModel.uiState.collectAsState()
         //var progress by remember { mutableStateOf(arc1UiState.arcStateNo1) }
 
-        TextOnTop()
-        TitleAndValueText(title = "Macro", parameterName = "no 4", precision = 0, suffix = "%", arcUiState = arcUiState, arcsViewModel = arcsViewModel)
+        TextOnTop(parameterName = "Macro 4")
+        ValueText(precision = 0, suffix = "%", arcUiState = arcUiState, arcsViewModel = arcsViewModel)
         Arc(arcsViewModel = arcsViewModel, focusRequester = focusRequester, arcUiState = arcUiState)
     }
 }
 
 @OptIn(ExperimentalWearMaterialApi::class)
 @Composable
-private fun TextOnTop() {
-    Column(modifier = Modifier.padding(8.dp)) {
-        TimeText(
-            modifier = Modifier.fillMaxWidth(),
-            timeSource = TimeTextDefaults.timeSource(
-                DateFormat.getBestDateTimePattern(Locale.getDefault(), "Hm")
-            ),
-            //timeTextStyle = TextStyle(background = androidx.compose.ui.graphics.Color.Red)
-        )
+private fun TextOnTop(parameterName: String,) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.padding(8.dp)) {
+            TimeText(
+                modifier = Modifier.fillMaxWidth(),
+                timeSource = TimeTextDefaults.timeSource(
+                    DateFormat.getBestDateTimePattern(Locale.getDefault(), "Hm")
+                ),
+                //timeTextStyle = TextStyle(background = androidx.compose.ui.graphics.Color.Red)
+            )
+        }
+        Column() {
+            Spacer(modifier = Modifier.height(28.dp))
+            CurvedRow(modifier = Modifier.fillMaxWidth()) {
+                CurvedText(
+                    text = parameterName,
+                    //fontSize = 12.sp
+                )
+            }
+        }
     }
 }
 
 @Composable
-private fun TitleAndValueText(title: String, parameterName: String, precision: Int, suffix: String, arcUiState: ArcsUiState, arcsViewModel: ArcsViewModel) {
+private fun ValueText(precision: Int, suffix: String, arcUiState: ArcsUiState, arcsViewModel: ArcsViewModel) {
     var progress = arcsViewModel.getArc2Progress()
     progress *= 100 //convert from 0-1 to %
 
@@ -73,7 +80,7 @@ private fun TitleAndValueText(title: String, parameterName: String, precision: I
                 //Spacer(modifier = Modifier.height(4.dp))
                 //Text(parameterName, textAlign = TextAlign.Center)
                 //Spacer(modifier = Modifier.height(4.dp))
-                Text("$valueStr $suffix", textAlign = TextAlign.Center)
+                Text("$valueStr $suffix", textAlign = TextAlign.Center, fontSize = 28.sp)
             }
         }
     }
@@ -93,8 +100,8 @@ private fun Arc(modifier: Modifier = Modifier, arcsViewModel: ArcsViewModel, foc
             .onRotaryScrollEvent {
                 //handle rotary event
                 progress = when {
-                    it.verticalScrollPixels > 0 -> java.lang.Float.min (progress + 0.1f, 1f)
-                    it.verticalScrollPixels < 0 -> java.lang.Float.max (progress - 0.1f, 0f)
+                    it.verticalScrollPixels > 0 -> java.lang.Float.min (progress + 0.02f, 1f)
+                    it.verticalScrollPixels < 0 -> java.lang.Float.max (progress - 0.02f, 0f)
                     else -> { progress }
                 }
 
