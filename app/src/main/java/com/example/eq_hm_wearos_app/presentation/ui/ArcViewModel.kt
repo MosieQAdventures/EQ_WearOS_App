@@ -8,8 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import java.lang.Float.max
-import java.lang.Float.min
 
 
 class ArcsViewModel(
@@ -25,6 +23,24 @@ class ArcsViewModel(
     fun changeArc2Value(progress: Float) { state.arcNo2.progress = progress }
     fun getArc2Progress() : Float { return state.arcNo2.progress }
 
+    fun changeArc3Value(progress: Float) { state.arcNo3.progress = progress }
+    fun getArc3Progress() : Float { return state.arcNo3.progress }
+
+    fun changeArc4Value(progress: Float) { state.arcNo4.progress = progress }
+    fun getArc4Progress() : Float { return state.arcNo4.progress }
+
+    fun changeArc5Value(progress: Float) { state.arcNo5.progress = progress }
+    fun getArc5Progress() : Float { return state.arcNo5.progress }
+
+    fun changeArc6Value(progress: Float) { state.arcNo6.progress = progress }
+    fun getArc6Progress() : Float { return state.arcNo6.progress }
+
+    fun changeArc7Value(progress: Float) { state.arcNo7.progress = progress }
+    fun getArc7Progress() : Float { return state.arcNo7.progress }
+
+    fun changeArc8Value(progress: Float) { state.arcNo8.progress = progress }
+    fun getArc8Progress() : Float { return state.arcNo8.progress }
+
     fun onArcChangeStateUpdate() {
         _uiState.update {
             ArcsUiState(
@@ -38,6 +54,8 @@ class ArcsViewModel(
                 arcStateNo8 = state.arcNo8.progress,
             )
         }
+
+        Log.d("X","m3 ${_uiState.value.arcStateNo3}")
     }
 
     init {

@@ -63,7 +63,7 @@ private fun TextOnTop(parameterName: String,) {
 
 @Composable
 private fun ValueText(precision: Int, suffix: String, arcUiState: ArcsUiState, arcsViewModel: ArcsViewModel) {
-    var progress = arcsViewModel.getArc2Progress()
+    var progress = arcsViewModel.getArc8Progress()
     progress *= 100 //convert from 0-1 to %
 
     var valueStr = progress.toString()
@@ -93,7 +93,7 @@ private fun Arc(modifier: Modifier = Modifier, arcsViewModel: ArcsViewModel, foc
         //val focusRequester: FocusRequester = remember { FocusRequester() }
 
         //val arc1UiState by arcsViewModel.uiState.collectAsState()
-        var progress by remember { mutableStateOf(arcUiState.arcStateNo2) }
+        var progress by remember { mutableStateOf(arcUiState.arcStateNo8) }
 
         Column(modifier = Modifier
             .fillMaxSize()
@@ -107,7 +107,7 @@ private fun Arc(modifier: Modifier = Modifier, arcsViewModel: ArcsViewModel, foc
                     }
                 }
 
-                arcsViewModel.changeArc2Value(progress)
+                arcsViewModel.changeArc8Value(progress)
                 arcsViewModel.onArcChangeStateUpdate()
 
                 true
