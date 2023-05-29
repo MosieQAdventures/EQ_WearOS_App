@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.eq_hm_wearos_app.presentation.data.ArcsState
 import com.example.eq_hm_wearos_app.presentation.ui.ArcsUiState
+import com.example.eq_hm_wearos_app.presentation.vstSend.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -55,7 +56,23 @@ class ArcsViewModel(
             )
         }
 
-        Log.d("X","m3 ${_uiState.value.arcStateNo3}")
+        //Log.d("VM","m3 ${_uiState.value.arcStateNo3}")
+        //Log.d("VM","m8 ${_uiState.value.arcStateNo8}")
+
+        //Singleton stuff test
+        //fill progress list before send
+        Singleton.getInstance().setProgressDescriptionIndividualListValue("m1p", 0, state.arcNo1.progress)
+        Singleton.getInstance().setProgressDescriptionIndividualListValue("m2p", 1, state.arcNo2.progress)
+        Singleton.getInstance().setProgressDescriptionIndividualListValue("m3p", 2, state.arcNo3.progress)
+        Singleton.getInstance().setProgressDescriptionIndividualListValue("m4p", 3, state.arcNo4.progress)
+        Singleton.getInstance().setProgressDescriptionIndividualListValue("m5p", 4, state.arcNo5.progress)
+        Singleton.getInstance().setProgressDescriptionIndividualListValue("m6p", 5, state.arcNo6.progress)
+        Singleton.getInstance().setProgressDescriptionIndividualListValue("m7p", 6, state.arcNo7.progress)
+        Singleton.getInstance().setProgressDescriptionIndividualListValue("m8p", 7, state.arcNo8.progress)
+
+        Singleton.getInstance().executeAsyncTask()
+
+
     }
 
     init {

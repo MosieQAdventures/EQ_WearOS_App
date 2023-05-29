@@ -9,30 +9,21 @@
 package com.example.eq_hm_wearos_app.presentation
 
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.KeyboardArrowDown
 import androidx.compose.material.icons.rounded.KeyboardArrowLeft
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
-import androidx.compose.material.icons.rounded.KeyboardArrowUp
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.wear.compose.material.*
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
@@ -41,8 +32,10 @@ import androidx.wear.compose.navigation.currentBackStackEntryAsState
 import androidx.wear.compose.navigation.rememberSwipeDismissableNavController
 import com.example.eq_hm_wearos_app.presentation.screens.*
 import com.example.eq_hm_wearos_app.presentation.theme.EQ_HM_WearOS_AppTheme
-
+import com.example.eq_hm_wearos_app.presentation.vstSend.ProgressDescription
+import com.example.eq_hm_wearos_app.presentation.vstSend.Singleton
 import java.util.*
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,11 +62,15 @@ fun WearApp() {
     val navController = rememberSwipeDismissableNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
 
+    // Singleton stuff start
+    // init and set list of params to send
+    var progressDescriptions: MutableList<ProgressDescription?> = ArrayList()
+    progressDescriptions = createProgressList(progressDescriptions)
+
+    Singleton.getInstance().setProgressDescriptionList(progressDescriptions)
+    //Singleton stuff end
+
     EQ_HM_WearOS_AppTheme {
-        /* If you have enough items in your list, use [ScalingLazyColumn] which is an optimized
-         * version of LazyColumn for wear devices with some added features. For more information,
-         * see d.android.com/wear/compose.
-         */
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -210,6 +207,19 @@ fun navigateToPervPage(currentPage: Int, navController: NavHostController) {
         else -> {}
     }
     Log.d("X", (currentPage-1).toString())
+}
+
+//default values
+fun createProgressList(progressList: MutableList<ProgressDescription?>): MutableList<ProgressDescription?> {
+    progressList.add(ProgressDescription("m1p", 0.2f)) //0-19980        //index 0
+    progressList.add(ProgressDescription("m2p", 0.2f)) //0-3           //index 1
+    progressList.add(ProgressDescription("m3p", 0.2f)) //0-19980      //index 2
+    progressList.add(ProgressDescription("m4p", 0.2f)) //0-489       //index 3
+    progressList.add(ProgressDescription("m5p", 0.2f)) //0-99         //index 4
+    progressList.add(ProgressDescription("m6p", 0.2f)) //0-19980      //index 5
+    progressList.add(ProgressDescription("m7p", 0.2f)) //0-489       //index 6
+    progressList.add(ProgressDescription("m8p", 0.2f)) //0-99         //index 7
+    return progressList
 }
 
 @Preview(device = Devices.WEAR_OS_LARGE_ROUND, showSystemUi = true)
