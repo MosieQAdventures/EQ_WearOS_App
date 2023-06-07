@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.wear.compose.material.*
 import androidx.wear.compose.navigation.SwipeDismissableNavHost
@@ -84,34 +85,35 @@ fun WearApp() {
                 PagerHorizontal()
             }*/
             Scaffold {
+                val arcsViewModel: ArcsViewModel = viewModel()
 
                 SwipeDismissableNavHost(
                     navController = navController,
                     startDestination = MacroScreen.Macro1.name
                 ) {
                     composable(route = MacroScreen.Macro1.name) {
-                        MacroNo1Screen()
+                        MacroNo1Screen(arcsViewModel = arcsViewModel)
                     }
                     composable(route = MacroScreen.Macro2.name) {
-                        MacroNo2Screen()
+                        MacroNo2Screen(arcsViewModel = arcsViewModel)
                     }
                     composable(route = MacroScreen.Macro3.name) {
-                        MacroNo3Screen()
+                        MacroNo3Screen(arcsViewModel = arcsViewModel)
                     }
                     composable(route = MacroScreen.Macro4.name) {
-                        MacroNo4Screen()
+                        MacroNo4Screen(arcsViewModel = arcsViewModel)
                     }
                     composable(route = MacroScreen.Macro5.name) {
-                        MacroNo5Screen()
+                        MacroNo5Screen(arcsViewModel = arcsViewModel)
                     }
                     composable(route = MacroScreen.Macro6.name) {
-                        MacroNo6Screen()
+                        MacroNo6Screen(arcsViewModel = arcsViewModel)
                     }
                     composable(route = MacroScreen.Macro7.name) {
-                        MacroNo7Screen()
+                        MacroNo7Screen(arcsViewModel = arcsViewModel)
                     }
                     composable(route = MacroScreen.Macro8.name) {
-                        MacroNo8Screen()
+                        MacroNo8Screen(arcsViewModel = arcsViewModel)
                     }
                 }
 

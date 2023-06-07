@@ -23,7 +23,7 @@ import java.util.*
 
 @Composable
 fun MacroNo6Screen(modifier: Modifier = Modifier,
-                   arcsViewModel: ArcsViewModel = viewModel()) {
+                   arcsViewModel: ArcsViewModel) {
     Scaffold() {
         val focusRequester: FocusRequester = remember { FocusRequester() }
 
